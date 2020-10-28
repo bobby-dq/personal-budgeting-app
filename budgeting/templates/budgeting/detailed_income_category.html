@@ -1,0 +1,56 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<div>
+    <h3>{{income_category}}</h3>
+    <h6>of <a href="{% url 'budgeting:detailed_budget' budget.id %}">{{ budget }}</a></h6>
+    <p>
+        <a class="btn btn-warning btn-sm" href="{% url 'budgeting:new_income_item' income_category.id %}">Add Income Item</a>
+    </p>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class="alert-primary">
+            <tr>
+                <th>Income</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income_item in income_items %}
+            <tr>
+                <th>{{ income_item }}</th>
+                <th>{{ income_item.amount | floatformat:2 }}</th>
+                <th>{{ income_item.date | date:'M d, Y'  }}</th>
+                <th>{{ income_item.description }}</th>
+                <th>
+                    <a class="btn btn-info btn-sm" href="{% url 'budgeting:edit_income_item' income_item.id %}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="{% url 'budgeting:delete_income_item' income_item.id %}">Delete</a>
+                </th>
+                
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <p>
+        <a class="btn btn-info btn-sm" href="{% url 'budgeting:edit_income_category' income_category.id %}">Edit {{ income_category }}</a>
+        <a class="btn btn-danger btn-sm" href="{% url 'budgeting:delete_income_category' income_category.id %}">Delete {{ income_category }}</a>
+    </p>
+    <p><a href="{% url 'budgeting:detailed_budget' budget.id %}">Back to {{ budget }}</a></p>
+</div>
+{% endblock content %}

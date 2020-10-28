@@ -1,0 +1,13 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<h3 class="alert alert-danger">Delete Confirmation</h3>
+<p>Are you sure you want to delete {{ expense_item }}?</p>
+
+<form action="{% url 'budgeting:delete_expense_item' expense_item.id %}" method='post'>
+    {% csrf_token %}
+    <a href="{% url 'budgeting:detailed_expense_category' expense_category.id %}" class="btn btn-info">Keep {{ expense_item }}</a>
+    <input type="submit" class="btn btn-danger" value="Delete"/>
+</form>
+
+{% endblock content %}

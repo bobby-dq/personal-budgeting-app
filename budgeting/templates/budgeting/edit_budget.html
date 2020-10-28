@@ -1,0 +1,18 @@
+{% extends "budgeting/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h3>Edit {{ budget }}</h3>
+
+<form action="{% url 'budgeting:edit_budget' budget.id %}" method='post' class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button name="submit" class="btn btn-primary btn-sm">Save Changes</button>
+        <a href="{% url 'budgeting:delete_budget' budget.id %}" class="btn btn-danger btn-sm">Delete Budget</a>
+    {% endbuttons %}    
+</form>
+<p><a href="{% url 'budgeting:detailed_budget' budget.id %}">Return to {{ budget }}</a></p>
+
+{% endblock content %}

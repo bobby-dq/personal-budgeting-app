@@ -1,0 +1,19 @@
+{% extends "budgeting/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h3>Edit {{ income_category }}</h3>
+<p>of <a href="{% url 'budgeting:detailed_budget' budget.id %}">{{ budget }}</a></p>
+
+<form class="form" action="{% url 'budgeting:edit_income_category' income_category.id %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button class="btn btn-primary btn-sm" name="submit">Save Changes</button>
+    <a href="{% url 'budgeting:delete_income_category' income_category.id %}" class="btn btn-danger btn-sm">Delete Income Category</a>
+    {% endbuttons %}
+</form>
+<p><a href="{% url 'budgeting:detailed_income_category' income_category.id %}">Return to {{ income_category }}</a></p>
+
+{% endblock content %}

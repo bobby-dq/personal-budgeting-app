@@ -1,0 +1,37 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<div class="table-responsive">
+    <p><a class="btn btn-primary btn-sm" href="{% url 'budgeting:new_budget' %}">Add New Budget!</a></p>
+    <table class="table">
+        <thead class="alert-info">
+            <tr>
+                <th scope="col" style="width:25%">Budget</th>
+                <th scope="col" style="width:25%">Total Income</th>
+                <th scope="col" style="width:25%">Total Expenses</th>
+                <th scope="col" style="width:25%">Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for budget in budgets %}
+            <tr>
+                <th>
+                    <a href="{% url 'budgeting:detailed_budget' budget.id %}">{{ budget }}</a>
+                    <p>{{ budget.start_date}} to {{ budget.end_date }}</p>
+                </th>
+                <th>{{ budget.total_income | floatformat:2 }}</th>
+                <th>{{ budget.total_expense | floatformat:2  }}</th>
+                <th>{{ budget.savings | floatformat:2 }}</th>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

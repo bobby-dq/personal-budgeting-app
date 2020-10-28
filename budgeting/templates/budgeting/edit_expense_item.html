@@ -1,0 +1,19 @@
+{% extends "budgeting/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h3>Edit {{ expense_item }}</h3>
+<p>of <a href="{% url 'budgeting:detailed_expense_category' expense_category.id %}">{{ expense_category }}</a> of <a href="{% url 'budgeting:detailed_budget' budget.id %}">{{ budget }}</a></p>
+
+<form class="form" action="{% url 'budgeting:edit_expense_item' expense_item.id %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+    <button class="btn btn-primary btn-sm" name="submit">Save Changes</button>
+    <a class="btn btn-danger btn-sm" href="{% url 'budgeting:delete_expense_item' expense_item.id %}">Delete {{ expense_item }}</a>
+    {% endbuttons %}
+</form>
+<p><a href="{% url 'budgeting:detailed_expense_category' expense_category.id %}">Return to {{ expense_category }}</a></p>
+
+{% endblock content %}

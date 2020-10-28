@@ -1,0 +1,16 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Personal Budgeting App</h1>
+    <p class="lead">A simple web application to track your personal finances, budgets, and expenses.</p>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+    <p>Welcome {{ user.username }}</p>
+    {% else %}
+    <p>Already have an account?<a href="{% url 'users:login' %}"> Login!</a> Otherwise, it is free to sign up!</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'users:register' %}" role="button">Register</a>
+    {% endif %}
+  </div>
+
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends "budgeting/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h3>Create a new Expense Category for <a href="{% url 'budgeting:detailed_budget' budget.id %}">{{ budget }}</a></h3>
+
+<form action="{% url 'budgeting:new_expense_category' budget.id %}" method='post' class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button name="submit" class="btn btn-primary btn-sm">Create Expense Category!</button>
+    {% endbuttons %}    
+</form>
+<p><a href="{% url 'budgeting:detailed_budget' budget.id %}">Return to {{ budget }}</a></p>
+
+{% endblock content %}

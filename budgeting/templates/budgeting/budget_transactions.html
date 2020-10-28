@@ -1,0 +1,60 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<div class="text-center">
+    <h3>{{ budget }} Transactions</h3>
+    <p><a class="btn btn-info" href="{% url 'budgeting:detailed_budget' budget.id %}">Back to {{ budget }}</a></p>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="alert-primary">
+            <tr>
+                <th scope="col" style="width:30%">Income Items</th>
+                <th scope="col" style="width:50%">Amount</th>
+                <th scope="col" style="width:20%">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income_item in income_items %}
+            <tr>
+                <td>{{ income_item.title }}</th>
+                <td style="color: green;">+{{ income_item.amount | floatformat:2  }}</th>
+                <td>{{ income_item.date | date:'M d, Y' }}</th>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <table class="table">
+        <thead class="alert-danger">
+            <tr>
+                <th scope="col" style="width:30%">Expense Items</th>
+                <th scope="col" style="width:50%">Amount</th>
+                <th scope="col" style="width:20%">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense_item in expense_items %}
+            <tr>
+                <td>{{ expense_item.title }}</th>
+                <td style="color: red">- {{ expense_item.amount | floatformat:2  }}</th>
+                <td>{{ expense_item.date | date:'M d, Y' }}</th>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

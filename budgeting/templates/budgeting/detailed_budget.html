@@ -1,0 +1,128 @@
+{% extends "budgeting/base.html" %}
+{% block content %}
+
+<div>
+    <h3>{{ budget }}</h3>
+    <h6>{{ budget.start_date}} to {{ budget.end_date }}</h6>
+    <p>
+        <a class="btn alert-primary btn-sm" href="{% url 'budgeting:new_income_category' budget.id %}">Add Income Category</a> 
+        <a class="btn alert-danger btn-sm" href="{% url 'budgeting:new_expense_category' budget.id %}">Add Expense Category</a>
+    </p>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class="alert-success">
+            <tr>
+                <th scope="col" style="width:16.67%">Total Income</th>
+                <th scope="col" style="width:16.67%">Total Expenses</th>
+                <th scope="col" style="width:16.67%">Savings</th>
+                <th scope="col" style="width:16.67%">Total Budgeted Income</th>
+                <th scope="col" style="width:16.67%">Total Budgeted Expense</th>
+                <th scope="col" style="width:16.67%">Budgeted Difference</th>
+            </tr>
+        </thead>
+            <tr>
+                <th>{{ budget.total_income | floatformat:2 }}</th>
+                <th>{{ budget.total_expense | floatformat:2 }}</th>
+                {% if budget.savings < 0 %}
+                    <th style="color:red">{{ budget.savings | floatformat:2 }}</th>
+                {% else %}
+                    <th style="color:green">+{{ budget.savings | floatformat:2 }}</th>
+                {% endif %}
+                <th>{{ budget.total_income_budgeted | floatformat:2 }}</th>
+                <th>{{ budget.total_expense_budgeted | floatformat:2 }}</th>
+                {% if budget.budgeted_difference < 0 %}
+                    <th style="color:red">{{ budget.budgeted_difference | floatformat:2 }}</th>
+                {% else %}
+                    <th style="color:green">+{{ budget.budgeted_difference | floatformat:2 }}</th>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead class="alert-primary">
+            <tr>
+                <th scope="col" style="width:20%">Income Category</th>
+                <th scope="col" style="width:20%">Budgeted</th>
+                <th scope="col" style="width:20%">Actual</th>
+                <th scope="col" style="width:20%">Difference</th>
+                <th scope="col" style="width:20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income_category in income_categories %}
+            <tr>
+                <th><a href="{% url 'budgeting:detailed_income_category' income_category.id %}">{{ income_category }}</a></th>
+                <th>{{ income_category.budgeted_amount | floatformat:2 }}</th>
+                <th>{{ income_category.actual_amount | floatformat:2  }}</th>
+                {% if income_category.difference < 0 %}
+                    <th style="color:red">{{ income_category.difference | floatformat:2 }}</th>
+                {% else %}
+                    <th style="color:green">+{{ income_category.difference | floatformat:2 }}</th>
+                {% endif %}
+                <th>
+                    <a class="btn alert-primary btn-sm" href="{% url 'budgeting:new_income_item' income_category.id %}">Add Income</a>
+                </th>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <table class="table">
+        <thead class="alert-danger">
+            <tr>
+                <th scope="col" style="width:20%">Expense Category</th>
+                <th scope="col" style="width:20%">Budgeted</th>
+                <th scope="col" style="width:20%">Actual</th>
+                <th scope="col" style="width:20%">Difference</th>
+                <th scope="col" style="width:20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense_category in expense_categories %}
+            <tr>
+                <th><a href="{% url 'budgeting:detailed_expense_category' expense_category.id %}">{{ expense_category }}</a></th>
+                <th>{{ expense_category.budgeted_amount | floatformat:2 }}</th>
+                <th>{{ expense_category.actual_amount | floatformat:2  }}</th>
+                {% if expense_category.difference < 0 %}
+                    <th style="color:red">{{ expense_category.difference | floatformat:2 }}</th>
+                {% else %}
+                    <th style="color:green">+{{ expense_category.difference | floatformat:2 }}</th>
+                {% endif %}
+                <th>
+                    <a class="btn alert-danger btn-sm" href="{% url 'budgeting:new_expense_item' expense_category.id %}">Add Expense</a>
+                </th>
+            </tr>
+            {% empty %}
+            <tr>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+                <td>No Data</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center">
+    <p>
+        <a class="btn btn-warning btn-sm" href="{% url 'budgeting:budget_transactions' budget.id %}">See Transactions</a>
+        <a class="btn btn-info btn-sm" href="{% url 'budgeting:edit_budget' budget.id %}">Edit {{ budget }}</a>
+        <a class="btn btn-danger btn-sm" href="{% url 'budgeting:delete_budget' budget.id %}">Delete {{ budget }}</a>
+    </p>
+</div>
+
+
+{% endblock content %}
